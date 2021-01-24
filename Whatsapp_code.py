@@ -42,6 +42,9 @@ while True:
         if sub in item.text.lower():
             temp=item.text
             print(temp)
-            #code add
+            str = temp
+    print(str.split( "\n")) 
+    break
+    
     break
     
