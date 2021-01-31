@@ -8,11 +8,16 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import NoSuchElementException
-#sub
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
+my_bot = ChatBot(name='Amigo',
+                 logic_adapters=['chatterbot.logic.MathematicalEvaluation',
+                                 'chatterbot.logic.BestMatch'])
+
 import subprocess
 subprocess.call([r'E:\Studies doc\Python\Studypython\chromeLaunch.bat'])
 sleep(5)
-#"E:\Studies doc\Python\Studypython\chromeLaunch.bat"
+
 
 #opening chrome in debug mode
 chrome_options = Options()
@@ -26,7 +31,7 @@ driver.get("https://web.whatsapp.com/")
 sleep(15)
 print('Code ended its pause.')
 
-user_name = 'Prajo'
+user_name = 'name'
 inp_xpath_search =  '//div[@class="_1awRl copyable-text selectable-text"][@contenteditable="true"][@data-tab="3"]'
 input_box_search = driver.find_element_by_xpath(inp_xpath_search)
 input_box_search.click()
@@ -35,16 +40,26 @@ input_box_search.send_keys(user_name)
 sleep(2)
 user = driver.find_element_by_xpath('//span[@title="{}"]'.format(user_name))
 user.click()
-sub="ssu"
+
 while True:
     p=driver.find_elements_by_class_name('_1RAno')
     for item in p:
         if sub in item.text.lower():
             temp=item.text
             print(temp)
-            str = temp
-    print(str.split( "\n")) 
+            strn = temp
+    print(strn.split( "\n")) 
     break
     
-    break
+response = my_bot.get_response(temp)
+print("Bot Response:", response)
+
+user = driver.find_element_by_xpath("//span[@title='{}']".format(user_name))
+user.click()
+
+x = driver.find_element_by_xpath('//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')
+x.send_keys(str(response))
+
+button = driver.find_element_by_class_name("_2Ujuu")
+button.click()
     
